@@ -34,6 +34,8 @@ public class TestingMovement : MonoBehaviour
 
     public void Movement(InputAction.CallbackContext context)
     {
+        Debug.Log("Hi");
+        
         if (recording)
         {
             if (context.performed)
@@ -50,7 +52,7 @@ public class TestingMovement : MonoBehaviour
 
     public void StartPlayback()
     {
-        transform.position = new Vector3(0, 1, -10);
+        transform.position = new Vector3(-0.24f, -0.8f, -12.8f);
         StartCoroutine(PlaybackRoutine());
     }
 
@@ -60,7 +62,7 @@ public class TestingMovement : MonoBehaviour
         {
             Vector3 targetPosition = new Vector3(recordedPosition.x, recordedPosition.y, transform.position.z);
             float timeElapsed = 0f;
-            float playbackDuration = 0.01f; // Adjust this value for playback speed.
+            float playbackDuration = 0.000001f; // Adjust this value for playback speed.
 
             while (timeElapsed < playbackDuration)
             {

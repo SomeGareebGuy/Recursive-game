@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayRecording : MonoBehaviour
 {
-    public TestingMovement _player;
+    public TestingMovement player;
     // Start is called before the first frame update
     void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<TestingMovement>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<TestingMovement>();
     }
 
     // Update is called once per frame
     public void ChangeRecording()
     {
-        _player.recording = false;
-        _player.StartPlayback();
+        player.recording = false;
+        player.StartPlayback();
     }
 }
