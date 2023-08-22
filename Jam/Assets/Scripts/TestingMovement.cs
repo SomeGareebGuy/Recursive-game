@@ -11,6 +11,7 @@ public class TestingMovement : MonoBehaviour
     public bool recording;
     public float dashSpeed;
     public bool isTrailActive;
+    public bool isHit;
 
     private int _frameCount;
     public float duration;
@@ -30,7 +31,7 @@ public class TestingMovement : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(ResetBoolAfterDelay(10f));
+        StartCoroutine(ResetBoolAfterDelay(20f));
         Application.targetFrameRate = 60;
         time = Time.deltaTime;
     }
@@ -38,14 +39,28 @@ public class TestingMovement : MonoBehaviour
     IEnumerator ResetBoolAfterDelay(float delay)
     {
         float timeRemaining = delay;
-
+        delay = 4f;
+        
         while (timeRemaining > 0f)
         {
+            if (isHit)
+            {
+                while (delay > 0f)
+                {
+                    yield return new WaitForSeconds(0.2f);
+                    delay -= 0.2f;
+                    timeRemaining -= 0.1f;
+                }
+                isHit = false;
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.1f); // Update the timer every 0.1 seconds
+                timeRemaining -= 0.1f;   
+            }
+            
             // Update the timer display on the UI
             timerText.text = timeRemaining.ToString("F1") + "s";
-
-            yield return new WaitForSeconds(0.1f); // Update the timer every 0.1 seconds
-            timeRemaining -= 0.1f;
         }
 
         transform.position = new Vector3(0, -1, -12.8f);
@@ -54,7 +69,7 @@ public class TestingMovement : MonoBehaviour
         recording = false;
         manager.direction = 0;
         StartPlayback();
-        StartCoroutine(recorder.ResetBoolAfterDelay(10f));
+        StartCoroutine(recorder.ResetBoolAfterDelay(20f));
     }
 
     private void Update()
@@ -226,7 +241,7 @@ public class TestingMovement : MonoBehaviour
     {
         GameObject gObj = new GameObject();
         gObj.transform.position = transform.position;
-        gObj.transform.localScale = new Vector3(1.42f, 1.42f, 1.42f);
+        gObj.transform.localScale = new Vector3(1, 1, 1);
         SpriteRenderer targetRenderer = gObj.AddComponent<SpriteRenderer>();
         targetRenderer.sprite = GetComponent<SpriteRenderer>().sprite;
         StartCoroutine(FadeOut(targetRenderer.color, targetRenderer, gObj));

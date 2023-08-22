@@ -29,8 +29,14 @@ public class MovementManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool currentFlipX = _sprite.flipX;
-        _sprite.flipX = direction < 0 || currentFlipX;
+        if (direction < 0)
+        {
+            _sprite.flipX = true;
+        }
+        else if (direction > 0)
+        {
+            _sprite.flipX = false;
+        }
         
         animator.SetBool("isWalking", isWalking);
         animator.SetInteger("Direction", Mathf.Abs(direction));
